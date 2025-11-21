@@ -10,9 +10,6 @@ updates:
       interval: "weekly"
       day: "sunday"
       time: "09:00"
-    labels:
-      - "dependencies"
-      - "github-actions"
     commit-message:
       prefix: "ci"
       include: "scope"
@@ -25,10 +22,6 @@ updates:
       interval: "weekly"
       day: "sunday"
       time: "09:00"
-    labels:
-      - "dependencies"
-      - "python"
-      - "infrastructure"
     commit-message:
       prefix: "deps"
       prefix-development: "deps-dev"
