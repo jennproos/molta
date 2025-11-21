@@ -115,6 +115,17 @@ S3 Bucket (Static Website)
 2. **Website Changes:** Edit files in `web/`, commit and push to trigger auto-deployment
 3. **Testing:** Run infrastructure tests with `cd infra && ./run-tests.sh`
 
+## Dependency Management
+
+This repository uses Dependabot to automatically monitor and update dependencies:
+
+- **Python Dependencies** - AWS CDK libraries and pytest are checked weekly
+- **GitHub Actions** - Action versions are monitored for security updates
+- **Automated PRs** - Dependabot creates pull requests for dependency updates
+- **Grouped Updates** - Related packages (like AWS CDK) are grouped together
+
+Dependabot configuration: `.github/dependabot.yml`
+
 ## Links
 
 - Website: [moltabakery.com](https://moltabakery.com/)
