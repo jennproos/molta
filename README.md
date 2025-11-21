@@ -49,9 +49,15 @@ cd infra
 ./run-tests.sh
 ```
 
-### 3. Deployment Automation (`.github/workflows/`)
+### 3. CI/CD Automation (`.github/workflows/`)
 
-**deploy-website.yaml** - GitHub Actions workflow that automatically:
+**test-infra.yaml** - Continuous Integration workflow that:
+- Runs on pull requests to `main` branch (when `infra/` files change)
+- Executes the complete infrastructure test suite
+- Prevents merging if tests fail (when branch protection is enabled)
+- Uses Python 3.13 and caches dependencies for fast runs
+
+**deploy-website.yaml** - Deployment workflow that automatically:
 - Triggers on push to `main` branch (when `web/` files change)
 - Syncs website files to S3 bucket
 - Configures S3 bucket for static website hosting
@@ -114,6 +120,25 @@ S3 Bucket (Static Website)
 1. **Infrastructure Changes:** Modify CDK code in `infra/`, run tests, deploy with `cdk deploy`
 2. **Website Changes:** Edit files in `web/`, commit and push to trigger auto-deployment
 3. **Testing:** Run infrastructure tests with `cd infra && ./run-tests.sh`
+
+## Branch Protection & Quality Gates
+
+To ensure code quality, this repository uses GitHub Actions for automated testing. To require tests to pass before merging:
+
+### Setting Up Branch Protection
+
+1. Go to your GitHub repository **Settings** → **Branches**
+2. Click **Add branch protection rule**
+3. Configure the rule:
+   - **Branch name pattern:** `main`
+   - **Require a pull request before merging:** ✅ Check this
+   - **Require status checks to pass before merging:** ✅ Check this
+   - **Status checks that are required:**
+     - Select `test / Test Infrastructure` (appears after first workflow run)
+   - **Require branches to be up to date before merging:** ✅ Check this
+4. Click **Create** or **Save changes**
+
+Once configured, all pull requests to `main` must pass the infrastructure tests before they can be merged.
 
 ## Dependency Management
 
