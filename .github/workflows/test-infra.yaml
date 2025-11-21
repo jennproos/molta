@@ -43,7 +43,7 @@ jobs:
 
       - name: Run Infrastructure Tests
         run: |
-          python -m pytest tests/unit/test_molta_infra_stack.py -v --tb=short
+          python -m pytest tests/unit/test_molta_infra_stack.py
 
       - name: Test Summary
         if: success()

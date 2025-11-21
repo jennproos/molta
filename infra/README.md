@@ -90,6 +90,15 @@ The test suite validates:
 - Route 53 A records (root and www domains)
 - Resource counts and removal policies
 
+### Test Configuration
+
+The test suite uses `pytest.ini` to configure test behavior:
+- **Warning Filters** - Suppresses noisy typeguard warnings from AWS CDK protocols
+- **Test Discovery** - Automatically finds tests following naming conventions
+- **Output Format** - Verbose mode with short tracebacks for easy debugging
+
+The configuration filters out harmless AWS CDK typeguard warnings while preserving other important warnings, keeping test output clean and focused.
+
 ## Useful commands
 
  * `cdk ls`          list all stacks in the app
