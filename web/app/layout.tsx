@@ -2,8 +2,18 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Molta',
+  title: 'Molta Bakery',
   description: 'damn good bread — Grand Rapids, MI',
+  openGraph: {
+    title: 'Molta Bakery',
+    description: 'damn good bread — Grand Rapids, MI',
+    url: 'https://moltabakery.com/',
+    images: [{ url: 'https://moltabakery.com/images/molta-popup.jpeg' }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
