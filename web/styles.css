@@ -15,7 +15,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'SN Pro', sans-serif;
+    font-weight: 300;
     line-height: 1.7;
     color: #222;
     background: #fff;
@@ -149,8 +150,9 @@ body {
 
 section h2 {
     font-size: 3rem;
+    line-height: 1.1;
     color: #00BF63;
-    margin-bottom: 0.75rem;
+    margin-bottom: 4rem;
 }
 
 .section-sub {
@@ -162,42 +164,37 @@ section h2 {
 /* ─── ABOUT ──────────────────────────────────────── */
 
 .about {
-    padding: 7rem 0;
-    background: #fff;
+    padding: 4rem 0;
+    background: #00BF63;
 }
 
-.about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.6fr;
-    gap: 5rem;
-    align-items: center;
+.about-text {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
 }
 
-.baker-photo {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: 12px;
-    border: 4px solid #F7C5DD;
-    display: block;
+.about-text h2 {
+    color: #fff;
 }
 
 .about-text p {
     font-size: 1.1rem;
-    color: #444;
+    color: #fff;
     margin-bottom: 1.2rem;
 }
 
 .about-sign {
-    color: #00BF63 !important;
+    color: #fff !important;
     font-style: italic;
 }
 
 /* ─── FARMERS MARKETS ────────────────────────────── */
 
 .markets {
-    padding: 7rem 0;
+    padding: 4rem 0;
     background: #f8f8f8;
+    text-align: center;
 }
 
 .market-grid {
@@ -283,7 +280,6 @@ section h2 {
 
 .market-time {
     color: #00BF63 !important;
-    font-style: italic;
     margin-top: 0.3rem;
 }
 
@@ -396,16 +392,6 @@ section h2 {
 
     .hero-content h1 {
         font-size: 3.5rem;
-    }
-
-    .about-grid {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-    }
-
-    .baker-photo {
-        max-width: 320px;
-        margin: 0 auto;
     }
 
     section h2 {
