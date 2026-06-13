@@ -70,8 +70,8 @@
 
     <!-- Ticker -->
     <div class="ticker-wrap" aria-hidden="true">
-        <div class="ticker-track">
-            <span>🥐 very good bread 🥐</span><span>🌾 organic stone ground wheat 🌾</span><span>💚 made with love 💚</span><span>📍 grand rapids, mi 📍</span><span>🥐 very good bread 🥐</span><span>🌾 organic stone ground wheat 🌾</span><span>💚 made with love 💚</span><span>📍 grand rapids, mi 📍</span>
+        <div class="ticker-track" id="ticker-track">
+            <span>🥐 very good bread 🥐</span><span>🌾 organic stone ground wheat 🌾</span><span>💚 made with love 💚</span><span>📍 grand rapids, mi 📍</span>
         </div>
     </div>
 
@@ -276,6 +276,17 @@
             <p class="footer-copy">&copy; 2026 Molta Bakery. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        const tickerTrack = document.getElementById('ticker-track');
+        const origHTML = tickerTrack.innerHTML;
+        const origWidth = tickerTrack.scrollWidth;
+        let safety = 0;
+        while (tickerTrack.scrollWidth < window.innerWidth * 2.5 && safety++ < 30) {
+            tickerTrack.insertAdjacentHTML('beforeend', origHTML);
+        }
+        tickerTrack.style.setProperty('--ticker-move', `-${origWidth}px`);
+    </script>
 
     <script>
         const revealObserver = new IntersectionObserver((entries) => {
