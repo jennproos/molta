@@ -75,24 +75,36 @@ body {
     padding-top: 3px;
 }
 
-/* ─── HERO ───────────────────────────────────────── */
+/* ─── SCREEN TOP (nav + hero = 100vh) ────────────── */
 
-.hero {
+.screen-top {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     background-image: url('images/molta-muffins.JPG');
     background-size: cover;
     background-position: center;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: relative;
 }
 
-.hero::after {
+.screen-top::after {
     content: '';
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.38);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ─── HERO ───────────────────────────────────────── */
+
+.hero {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
 }
 
 .hero-content {
@@ -243,7 +255,7 @@ section h2 {
 }
 
 .market-month {
-    font-family: Georgia, serif;
+    font-family: "BBH Sans Hegarty", sans-serif;
     font-size: 0.6rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
