@@ -61,17 +61,24 @@
     <section class="hero">
         <div class="hero-content">
             <p class="hero-eyebrow">Grand Rapids, MI</p>
-            <h1>fresh baked daily</h1>
+            <h1>damn good bread</h1>
             <p class="hero-sub">rye, brioche, and other breads n treats — made with organic stone ground wheat and a whole lot of love.</p>
         </div>
     </section>
 
     </div><!-- /.screen-top -->
 
+    <!-- Ticker -->
+    <div class="ticker-wrap" aria-hidden="true">
+        <div class="ticker-track">
+            <span>🥐 fresh baked daily 🥐</span><span>🌾 organic stone ground wheat 🌾</span><span>💚 made with love 💚</span><span>📍 grand rapids, mi 📍</span><span>fresh baked daily 🥐</span><span>organic stone ground wheat 🌾</span><span>made with love 💚</span><span>📍 grand rapids, mi</span>
+        </div>
+    </div>
+
     <!-- About -->
     <section class="about" id="about">
         <div class="section-inner">
-            <div class="about-text">
+            <div class="about-text reveal">
                 <h2>about</h2>
                 <p>my name is Cole and I'm a baker. I fucking love bread. I started Molta because I want to feed people and make people happy!</p>
                 <p>I'm very passionate about using organic stone ground flour because it contains beneficial nutrients. combined with long fermentation it is easy on the digestive system and provides incredible flavor.</p>
@@ -83,7 +90,7 @@
 
     <!-- Farmers Markets -->
     <section class="markets" id="markets">
-        <div class="section-inner">
+        <div class="section-inner reveal">
             <h2>find me at the market</h2>
             <p class="section-sub">come say hi and grab some bread while it's fresh.</p>
             <div class="market-grid">
@@ -263,12 +270,23 @@
 
     <!-- Footer / Contact -->
     <footer class="footer">
-        <div class="section-inner footer-inner">
+        <div class="section-inner footer-inner reveal">
             <p class="footer-logo">Molta</p>
             <p class="footer-tagline">made with love · Grand Rapids, MI</p>
             <p class="footer-copy">&copy; 2026 Molta Bakery. All rights reserved.</p>
         </div>
     </footer>
 
+    <script>
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    </script>
 </body>
 </html>
