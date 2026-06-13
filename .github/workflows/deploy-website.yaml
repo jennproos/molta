@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'web/**'
+      - '.github/workflows/deploy-website.yaml'
   workflow_dispatch:
 
 jobs:
@@ -17,7 +18,20 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
 
       - name: Deploy to S3
         env:
@@ -26,5 +40,4 @@ jobs:
           AWS_REGION: 'us-east-1'
           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
         run: |
-          aws s3 sync . s3://$S3_BUCKET_NAME --delete
-          aws s3 website s3://$S3_BUCKET_NAME --index-document index.html --error-document index.html
+          aws s3 sync out/ s3://$S3_BUCKET_NAME --delete
