@@ -6,52 +6,266 @@
     <title>Molta Bakery</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=BBH+Sans+Hegarty&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=BBH+Sans+Hegarty&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Header Section -->
-        <header class="header">
-            <h1 class="logo">Molta</h1>
-            <p class="tagline">Made with love</p>
-        </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Hero Section -->
-            <section class="hero">
-                <div class="hero-content">
-                    <h2>Fresh Baked Daily</h2>
-                    <p>A small pop up bakery serving freshly baked Rye, Brioche, and other breads n treats using stone ground wheat.</p>
-                    <p>Based in Grand Rapids, MI</p>
-                    <button class="order-btn" onclick="window.open('https://hotplate.com/molta', '_blank')">
-                        Order for Delivery
-                    </button>
-                </div>
-            </section>
+    <!-- Sticky Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">Molta</a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#markets" class="nav-link">Markets</a></li>
+                <li>
+                    <a href="https://www.instagram.com/molta_gr/" target="_blank" rel="noopener" class="nav-instagram nav-link" aria-label="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                            <circle cx="12" cy="12" r="4"/>
+                            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
 
-            <!-- About Section -->
-            <section class="about">
-                <div class="about-content">
-                    <div class="about-text">
-                        <h3>About Me</h3>
-                        <p>My name is Cole and I'm a baker. I fucking love bread. I started Molta because I want to feed people and make people happy! I'm very passionate about using organic stone ground flour because it contains beneficial nutrients! Combined with long fermentation it is easy on the digestive system and provides incredible flavor.</p>
-                        <p>Currently planning some more popups and I can't wait to serve y'all!</p>
-                        <p>NOW GO SPREAD SOME LOVE AND ENJOY LIFE!! LOVE Y'ALL! 🌾❤️</p>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        hamburger.addEventListener('click', () => {
+            const open = navLinks.classList.toggle('nav-open');
+            hamburger.classList.toggle('is-open', open);
+            hamburger.setAttribute('aria-expanded', open);
+        });
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('nav-open');
+                hamburger.classList.remove('is-open');
+                hamburger.setAttribute('aria-expanded', false);
+            });
+        });
+    </script>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-eyebrow">Grand Rapids, MI</p>
+            <h1>Fresh Baked Daily</h1>
+            <p class="hero-sub">Rye, Brioche, and other breads n treats — made with organic stone ground wheat and a whole lot of love.</p>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about" id="about">
+        <div class="section-inner about-grid">
+            <div class="about-image">
+                <img src="images/molta-popup.jpeg" alt="Cole at Molta" class="baker-photo">
+            </div>
+            <div class="about-text">
+                <h2>About Me</h2>
+                <p>My name is Cole and I'm a baker. I fucking love bread. I started Molta because I want to feed people and make people happy!</p>
+                <p>I'm very passionate about using organic stone ground flour because it contains beneficial nutrients. Combined with long fermentation it is easy on the digestive system and provides incredible flavor.</p>
+                <p>Currently planning some more popups and I can't wait to serve y'all!</p>
+                <p class="about-sign">NOW GO SPREAD SOME LOVE AND ENJOY LIFE!! LOVE Y'ALL! 🌾❤️</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Farmers Markets -->
+    <section class="markets" id="markets">
+        <div class="section-inner">
+            <h2>Find Me at the Market</h2>
+            <p class="section-sub">Come say hi and grab some bread while it's fresh.</p>
+            <div class="market-grid">
+
+                <!-- To update: change the month, day, market name, location, and time for each card. Add or remove cards as needed. -->
+                <div class="market-card">
+                    <div class="market-date">
+                        <span class="market-month">JUN</span>
+                        <span class="market-day">13</span>
                     </div>
-                    <div class="about-image">
-                        <img src="images/molta-popup.jpeg" alt="Baker at Molta" class="baker-photo">
-                        <p class="image-placeholder">Your photo will go here</p>
+                    <div class="market-info">
+                        <h3>Creston Farmers Market</h3>
+                        <p>Grand Rapids, MI</p>
+                        <p class="market-time">9am – 1pm</p>
                     </div>
                 </div>
-            </section>
-        </main>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2025 Molta Bakery. All rights reserved.</p>
-        </footer>
-    </div>
+                <div class="market-card">
+                    <div class="market-date">
+                        <span class="market-month">JUN</span>
+                        <span class="market-day">20</span>
+                    </div>
+                    <div class="market-info">
+                        <h3>Creston Farmers Market</h3>
+                        <p>Grand Rapids, MI</p>
+                        <p class="market-time">9am – 1pm</p>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-date">
+                        <span class="market-month">JUN</span>
+                        <span class="market-day">27</span>
+                    </div>
+                    <div class="market-info">
+                        <h3>Creston Farmers Market</h3>
+                        <p>Grand Rapids, MI</p>
+                        <p class="market-time">9am – 1pm</p>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-date">
+                        <span class="market-month">JUL</span>
+                        <span class="market-day">11</span>
+                    </div>
+                    <div class="market-info">
+                        <h3>Creston Farmers Market</h3>
+                        <p>Grand Rapids, MI</p>
+                        <p class="market-time">9am – 1pm</p>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-date">
+                        <span class="market-month">JUL</span>
+                        <span class="market-day">18</span>
+                    </div>
+                    <div class="market-info">
+                        <h3>Creston Farmers Market</h3>
+                        <p>Grand Rapids, MI</p>
+                        <p class="market-time">9am – 1pm</p>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-date">
+                        <span class="market-month">JUL</span>
+                        <span class="market-day">25</span>
+                    </div>
+                    <div class="market-info">
+                        <h3>Creston Farmers Market</h3>
+                        <p>Grand Rapids, MI</p>
+                        <p class="market-time">9am – 1pm</p>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-date">
+                        <span class="market-month">AUG</span>
+                        <span class="market-day">1</span>
+                    </div>
+                    <div class="market-info">
+                        <h3>Creston Farmers Market</h3>
+                        <p>Grand Rapids, MI</p>
+                        <p class="market-time">9am – 1pm</p>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-date">
+                        <span class="market-month">AUG</span>
+                        <span class="market-day">8</span>
+                    </div>
+                    <div class="market-info">
+                        <h3>Creston Farmers Market</h3>
+                        <p>Grand Rapids, MI</p>
+                        <p class="market-time">9am – 1pm</p>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-date">
+                        <span class="market-month">AUG</span>
+                        <span class="market-day">15</span>
+                    </div>
+                    <div class="market-info">
+                        <h3>Creston Farmers Market</h3>
+                        <p>Grand Rapids, MI</p>
+                        <p class="market-time">9am – 1pm</p>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-date">
+                        <span class="market-month">AUG</span>
+                        <span class="market-day">22</span>
+                    </div>
+                    <div class="market-info">
+                        <h3>Creston Farmers Market</h3>
+                        <p>Grand Rapids, MI</p>
+                        <p class="market-time">9am – 1pm</p>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-date">
+                        <span class="market-month">AUG</span>
+                        <span class="market-day">29</span>
+                    </div>
+                    <div class="market-info">
+                        <h3>Creston Farmers Market</h3>
+                        <p>Grand Rapids, MI</p>
+                        <p class="market-time">9am – 1pm</p>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-date">
+                        <span class="market-month">SEPT</span>
+                        <span class="market-day">12</span>
+                    </div>
+                    <div class="market-info">
+                        <h3>Creston Farmers Market</h3>
+                        <p>Grand Rapids, MI</p>
+                        <p class="market-time">9am – 1pm</p>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-date">
+                        <span class="market-month">SEPT</span>
+                        <span class="market-day">19</span>
+                    </div>
+                    <div class="market-info">
+                        <h3>Creston Farmers Market</h3>
+                        <p>Grand Rapids, MI</p>
+                        <p class="market-time">9am – 1pm</p>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-date">
+                        <span class="market-month">SEPT</span>
+                        <span class="market-day">26</span>
+                    </div>
+                    <div class="market-info">
+                        <h3>Creston Farmers Market</h3>
+                        <p>Grand Rapids, MI</p>
+                        <p class="market-time">9am – 1pm</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer class="footer">
+        <div class="section-inner footer-inner">
+            <p class="footer-logo">Molta</p>
+            <p class="footer-tagline">Made with love · Grand Rapids, MI</p>
+            <p class="footer-copy">&copy; 2026 Molta Bakery. All rights reserved.</p>
+        </div>
+    </footer>
+
 </body>
 </html>

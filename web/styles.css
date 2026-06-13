@@ -4,234 +4,418 @@
     box-sizing: border-box;
 }
 
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: "BBH Sans Hegarty", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+html {
+    scroll-behavior: smooth;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: "BBH Sans Hegarty", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
 
 body {
-    font-family: "", sans-serif;
-    line-height: 1.6;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.7;
+    color: #222;
+    background: #fff;
+}
+
+/* ─── NAVIGATION ─────────────────────────────────── */
+
+.nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+    border-bottom: 2px solid #00BF63;
+    padding: 1rem 2rem;
+}
+
+.nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-logo {
+    font-family: "BBH Sans Hegarty", sans-serif;
+    font-size: 1.9rem;
     color: #00BF63;
+    text-decoration: none;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #222;
+    font-family: "BBH Sans Hegarty", sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: #00BF63;
+}
+
+.nav-instagram {
+    display: flex;
+    align-items: center;
+    color: #222;
+    transition: color 0.2s;
+    padding-top: 3px;
+}
+
+/* ─── HERO ───────────────────────────────────────── */
+
+.hero {
     background-image: url('images/molta-muffins.JPG');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
     min-height: 100vh;
-}
-
-.container {
-    min-height: 100vh;
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(5px);
-}
-
-/* Header Styles */
-.header {
-    text-align: center;
-    padding: 2rem 1rem;
-    background:
-        linear-gradient(45deg, #00BF63 25%, transparent 25%),
-        linear-gradient(-45deg, #00BF63 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #00BF63 75%),
-        linear-gradient(-45deg, transparent 75%, #00BF63 75%);
-    background-size: 120px 120px;
-    background-position: 0 0, 0 60px, 60px -60px, -60px 0px;
-    background-color: white;
-    color: black;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.logo {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.tagline {
-    font-size: 1.2rem;
-    font-style: italic;
-    opacity: 0.9;
-}
-
-/* Main Content */
-.main-content {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Hero Section */
-.hero {
-    text-align: center;
-    padding: 4rem 2rem;
-    margin-bottom: 4rem;
-}
-
-.hero-content h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: white;
-}
-
-.hero-content p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    color: white;
-}
-
-.order-btn {
-    background: linear-gradient(135deg, #F7C5DD, #00BF63);
-    color: white;
-    border: none;
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.order-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
-    background: linear-gradient(135deg, #00BF63, #F7C5DD);
-}
-
-/* About Section */
-.about {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 15px;
-    padding: 3rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.about-content {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 3rem;
+    display: flex;
     align-items: center;
-}
-
-.about-text h3 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: #00BF63;
-}
-
-.about-text p {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-    color: #555;
-}
-
-.about-image {
-    text-align: center;
+    justify-content: center;
     position: relative;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.38);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #fff;
+    padding: 2rem;
+    max-width: 720px;
+}
+
+.hero-eyebrow {
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    opacity: 0.8;
+}
+
+.hero-content h1 {
+    font-size: 5.5rem;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
+}
+
+.hero-sub {
+    font-size: 1.15rem;
+    opacity: 0.88;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.75;
+}
+
+/* ─── SHARED SECTION LAYOUT ──────────────────────── */
+
+.section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+section h2 {
+    font-size: 3rem;
+    color: #00BF63;
+    margin-bottom: 0.75rem;
+}
+
+.section-sub {
+    font-size: 1.05rem;
+    color: #666;
+    margin-bottom: 3rem;
+}
+
+/* ─── ABOUT ──────────────────────────────────────── */
+
+.about {
+    padding: 7rem 0;
+    background: #fff;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 5rem;
+    align-items: center;
 }
 
 .baker-photo {
     width: 100%;
-    max-width: 300px;
-    height: 300px;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
-    border-radius: 50%;
-    border: 5px solid #00BF63;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    display: block; /* Show the image */
+    border-radius: 12px;
+    border: 4px solid #F7C5DD;
+    display: block;
 }
 
-.image-placeholder {
-    width: 300px;
-    height: 300px;
-    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
-    border-radius: 50%;
-    display: none; /* Hide placeholder when image is available */
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    border: 5px solid #00BF63;
-    color: #00BF63;
+.about-text p {
+    font-size: 1.1rem;
+    color: #444;
+    margin-bottom: 1.2rem;
+}
+
+.about-sign {
+    color: #00BF63 !important;
     font-style: italic;
-    text-align: center;
-    padding: 2rem;
 }
 
-/* Footer */
+/* ─── FARMERS MARKETS ────────────────────────────── */
+
+.markets {
+    padding: 7rem 0;
+    background: #f8f8f8;
+}
+
+.market-grid {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 1rem;
+}
+
+.market-grid::-webkit-scrollbar {
+    height: 4px;
+}
+
+.market-grid::-webkit-scrollbar-track {
+    background: #eee;
+    border-radius: 2px;
+}
+
+.market-grid::-webkit-scrollbar-thumb {
+    background: #00BF63;
+    border-radius: 2px;
+}
+
+.market-card {
+    background: #fff;
+    border: 2px solid #F7C5DD;
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+}
+
+.market-card:hover {
+    border-color: #00BF63;
+    box-shadow: 0 6px 24px rgba(0, 191, 99, 0.12);
+}
+
+.market-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #00BF63;
+    color: #fff;
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    min-width: 58px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.market-month {
+    font-family: Georgia, serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+.market-day {
+    font-family: "BBH Sans Hegarty", sans-serif;
+    font-size: 2.2rem;
+    line-height: 1.05;
+}
+
+.market-info h3 {
+    font-family: "BBH Sans Hegarty", sans-serif;
+    font-size: 1.25rem;
+    color: #222;
+    margin-bottom: 0.3rem;
+    line-height: 1.2;
+}
+
+.market-info p {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.market-time {
+    color: #00BF63 !important;
+    font-style: italic;
+    margin-top: 0.3rem;
+}
+
+/* ─── FOOTER ─────────────────────────────────────── */
+
 .footer {
+    background: #00BF63;
+    color: #fff;
+    padding: 3.5rem 0;
     text-align: center;
-    padding: 2rem;
-    background:
-        linear-gradient(45deg, #00BF63 25%, transparent 25%),
-        linear-gradient(-45deg, #00BF63 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #00BF63 75%),
-        linear-gradient(-45deg, transparent 75%, #00BF63 75%);
-    background-size: 120px 120px;
-    background-position: 0 0, 0 60px, 60px -60px, -60px 0px;
-    background-color: white;
-    color: black;
-    margin-top: 2rem;
 }
 
-/* Responsive Design */
+.footer-logo {
+    font-family: "BBH Sans Hegarty", sans-serif;
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+.footer-tagline {
+    font-size: 1rem;
+    opacity: 0.82;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+}
+
+.footer-copy {
+    font-size: 0.82rem;
+    opacity: 0.55;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+
+/* ─── HAMBURGER ──────────────────────────────────── */
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #222;
+    border-radius: 2px;
+    transition: transform 0.25s, opacity 0.25s;
+    transform-origin: center;
+}
+
+.hamburger.is-open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.is-open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.is-open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
 @media (max-width: 768px) {
-    .logo {
-        font-size: 2.5rem;
+    .hamburger {
+        display: flex;
     }
-    
-    .hero-content h2 {
-        font-size: 2rem;
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-top: 1px solid #eee;
+        border-bottom: 2px solid #00BF63;
+        flex-direction: column;
+        gap: 0;
+        padding: 0.5rem 0;
     }
-    
-    .about-content {
+
+    .nav-links.nav-open {
+        display: flex;
+    }
+
+    .nav-links li {
+        width: 100%;
+    }
+
+    .nav-links a,
+    .nav-links .nav-instagram {
+        display: flex;
+        align-items: center;
+        padding: 0.85rem 2rem;
+        width: 100%;
+        font-size: 1rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .nav-links li:last-child a {
+        border-bottom: none;
+    }
+}
+
+    .hero-content h1 {
+        font-size: 3.5rem;
+    }
+
+    .about-grid {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 2.5rem;
     }
-    
-    .about {
-        padding: 2rem;
+
+    .baker-photo {
+        max-width: 320px;
+        margin: 0 auto;
     }
-    
-    .main-content {
-        padding: 1rem;
+
+    section h2 {
+        font-size: 2.4rem;
     }
-    
-    .image-placeholder {
-        width: 250px;
-        height: 250px;
+
+    .about,
+    .markets {
+        padding: 5rem 0;
     }
 }
 
 @media (max-width: 480px) {
-    .logo {
-        font-size: 2rem;
+    .hero-content h1 {
+        font-size: 2.6rem;
     }
-    
-    .hero-content h2 {
-        font-size: 1.8rem;
-    }
-    
-    .order-btn {
-        padding: 0.8rem 1.5rem;
+
+    .hero-sub {
         font-size: 1rem;
     }
-    
-    .image-placeholder {
-        width: 200px;
-        height: 200px;
-        padding: 1rem;
+
+    .market-card {
+        flex: 0 0 240px;
     }
 }
