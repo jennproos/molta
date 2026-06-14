@@ -1,12 +1,15 @@
 from aws_cdk import (
+    CfnOutput,
     RemovalPolicy,
     Stack,
     aws_certificatemanager as acm,
     aws_cloudfront as cloudfront,
     aws_cloudfront_origins as origins,
+    aws_iam as iam,
     aws_route53 as route53,
     aws_route53_targets as route53_targets,
     aws_s3 as s3,
+    aws_secretsmanager as secretsmanager,
 )
 from constructs import Construct
 
@@ -82,4 +85,43 @@ class MoltaInfraStack(Stack):
             zone=hosted_zone,
             record_name=subdomain,
             target=route53.RecordTarget.from_alias(route53_targets.CloudFrontTarget(distribution))
+        )
+
+        github_deployment_user = iam.User(
+            self,
+            "GitHubDeploymentUser",
+            user_name="molta-github-deployment-user"
+        )
+
+        github_deployment_user.add_to_policy(
+            iam.PolicyStatement(
+                actions=[
+                    "s3:ListBucket",
+                    "s3:GetObject",
+                    "s3:PutObject",
+                    "s3:DeleteObject",
+                    "s3:PutBucketWebsite"
+                ],
+                resources=[
+                    domain_bucket.bucket_arn,
+                    f"{domain_bucket.bucket_arn}/*"
+                ]
+            )
+        )
+
+        github_deployment_user.add_to_policy(
+            iam.PolicyStatement(
+                actions=["cloudfront:CreateInvalidation"],
+                resources=[f"arn:aws:cloudfront::{self.account}:distribution/{distribution.distribution_id}"]
+            )
+        )
+
+        access_key = iam.AccessKey(self, "GitHubDeploymentUserAccessKey", user=github_deployment_user)
+        CfnOutput(self, "GitHubDeploymentUserAccessKeyId", value=access_key.access_key_id)
+
+        secretsmanager.Secret(
+            self,
+            "GitHubDeploymentUserAccessKeySecret",
+            secret_name="molta-github-deployment-user-secret-access-key-secret",
+            secret_string_value=access_key.secret_access_key
         )

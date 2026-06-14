@@ -8,6 +8,14 @@ Before getting started, ensure you have the following installed:
 - **Node.js and npm** (for AWS CDK CLI)
 - **AWS CLI** configured with appropriate credentials
 
+### Authenticating with AWS
+
+Run `auth.sh` using `source` so the credentials are exported into your current shell session:
+
+```bash
+source auth.sh
+```
+
 ## Setup Instructions
 
 ### 1. Install AWS CDK CLI
