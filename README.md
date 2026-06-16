@@ -6,13 +6,13 @@ A small pop-up bakery website serving freshly baked Rye, Brioche, and other brea
 
 ## Repository Overview
 
-This repository contains the complete website infrastructure and deployment pipeline for Molta Bakery, built using AWS services and automated with GitHub Actions.
+This repository contains the complete website infrastructure and deployment pipeline for Molta Bakery, built using a Next.js frontend, AWS services, and automated with GitHub Actions.
 
 ## Repository Structure
 
 ```
 molta/
-├── web/              # Static website files
+├── web/              # Next.js website (static export)
 ├── infra/            # AWS CDK infrastructure code
 └── .github/          # GitHub Actions workflows
 ```
@@ -21,12 +21,16 @@ molta/
 
 ### 1. Web (`web/`)
 
-The static website for Molta Bakery, featuring:
-- **index.html** - Main landing page with bakery information and ordering link
-- **styles.css** - Custom styling for the website
-- **images/** - Product photos and visual assets
+The website for Molta Bakery, built with [Next.js](https://nextjs.org) (App Router) using TypeScript and React. It is configured for [static export](https://nextjs.org/docs/app/guides/static-exports) (`output: 'export'` in `next.config.ts`), so `npm run build` produces a fully static site in `web/out/` that is hosted on S3 and served via CloudFront.
 
-The website is a simple, elegant static site that showcases the bakery's offerings and provides a direct link to order through HotPlate.
+Key files and directories:
+- **app/** - App Router pages, layout, and global styles (`page.tsx`, `layout.tsx`, `globals.css`)
+- **components/** - Reusable React components (Hero, About, Markets, Nav, Footer, Ticker, etc.)
+- **data/** - Content data such as market/pop-up listings (`markets.ts`)
+- **public/** - Static assets (product photos and images)
+- **next.config.ts** - Next.js configuration (static export, unoptimized images)
+
+The site showcases the bakery's offerings and provides a direct link to order through HotPlate. See [web/README.md](web/README.md) for frontend development details.
 
 ### 2. Infrastructure (`infra/`)
 
@@ -59,14 +63,15 @@ cd infra
 
 **deploy-website.yaml** - Deployment workflow that automatically:
 - Triggers on push to `main` branch (when `web/` files change)
-- Syncs website files to S3 bucket
-- Configures S3 bucket for static website hosting
+- Sets up Node.js, installs dependencies (`npm ci`), and builds the static export (`npm run build`)
+- Syncs the generated `web/out/` directory to the S3 bucket
+- Invalidates the CloudFront cache so changes are served immediately
 - Can also be manually triggered via workflow_dispatch
 
 **Deployment Process:**
 1. Push changes to the `web/` directory
-2. GitHub Actions automatically deploys to S3
-3. CloudFront serves the updated content globally
+2. GitHub Actions builds the Next.js static export and deploys it to S3
+3. The CloudFront cache is invalidated and serves the updated content globally
 4. Changes are live at moltabakery.com
 
 ## Getting Started
@@ -74,9 +79,24 @@ cd infra
 ### Prerequisites
 
 - AWS CLI configured with appropriate credentials
+- Node.js 20+ and npm (for the website and AWS CDK)
 - Python 3.13+ (for infrastructure development)
-- Node.js and npm (for AWS CDK)
 - AWS CDK Toolkit installed (`npm install -g aws-cdk`)
+
+### Running the Website Locally
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view the site. To produce the static export locally:
+
+```bash
+cd web
+npm run build   # outputs to web/out/
+```
 
 ### Deploying Infrastructure
 
@@ -95,7 +115,10 @@ Simply edit files in the `web/` directory and push to the `main` branch. The Git
 For manual deployment:
 ```bash
 cd web
-aws s3 sync . s3://moltabakery.com --delete
+npm ci
+npm run build
+aws s3 sync out/ s3://moltabakery.com --delete
+aws cloudfront create-invalidation --distribution-id <DISTRIBUTION_ID> --paths "/*"
 ```
 
 ## Architecture
@@ -107,7 +130,7 @@ Route 53 (DNS)
     ↓
 CloudFront (CDN)
     ↓
-S3 Bucket (Static Website)
+S3 Bucket (Next.js static export)
 ```
 
 **Security:**
@@ -118,7 +141,7 @@ S3 Bucket (Static Website)
 ## Development Workflow
 
 1. **Infrastructure Changes:** Modify CDK code in `infra/`, run tests, deploy with `cdk deploy`
-2. **Website Changes:** Edit files in `web/`, commit and push to trigger auto-deployment
+2. **Website Changes:** Edit the Next.js app in `web/` (test locally with `npm run dev`), commit and push to trigger an automatic build and deployment
 3. **Testing:** Run infrastructure tests with `cd infra && ./run-tests.sh`
 
 ## Branch Protection & Quality Gates

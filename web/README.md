@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Molta Bakery — Web
+
+The [Molta Bakery](https://moltabakery.com/) website, built with [Next.js](https://nextjs.org) (App Router), TypeScript, and React. It is configured for [static export](https://nextjs.org/docs/app/guides/static-exports), so the build produces a fully static site that is hosted on S3 and served through CloudFront.
+
+> **Note:** This project uses a newer version of Next.js with breaking changes from older releases. Before writing code, read the relevant guide in `node_modules/next/dist/docs/` — see [AGENTS.md](AGENTS.md).
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies and run the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the site. Pages auto-update as you edit files.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` — start the local development server
+- `npm run build` — build the static export into `out/`
+- `npm run start` — serve a production build locally
+- `npm run lint` — run ESLint
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+web/
+├── app/          # App Router: pages, layout, global styles
+│   ├── page.tsx        # Home page composition
+│   ├── layout.tsx      # Root layout, metadata, fonts
+│   ├── globals.css     # Global styles
+│   └── icon.svg        # Favicon
+├── components/   # React components (Nav, Hero, Ticker, About, Markets, Footer, ScrollReveal)
+├── data/         # Content data (markets.ts — pop-up / farmers market schedule)
+├── public/       # Static assets (images)
+└── next.config.ts # Static export + unoptimized images
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Fonts (BBH Sans Hegarty, SN Pro) are loaded from Google Fonts in `app/layout.tsx`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Editing Content
 
-## Deploy on Vercel
+The market / pop-up schedule shown on the site is defined in [`data/markets.ts`](data/markets.ts). Update that array to change upcoming dates.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deployment is automated via GitHub Actions. Pushing changes under `web/` to the `main` branch builds the static export, syncs `out/` to S3, and invalidates the CloudFront cache. See the [root README](../README.md) for the full infrastructure and deployment details.
