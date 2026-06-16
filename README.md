@@ -78,7 +78,7 @@ cd infra
 
 ### Prerequisites
 
-- AWS CLI configured with appropriate credentials
+- AWS CLI installed and configured (run `aws configure` to set up your credentials and default region)
 - Node.js 20+ and npm (for the website and AWS CDK)
 - Python 3.13+ (for infrastructure development)
 - AWS CDK Toolkit installed (`npm install -g aws-cdk`)
@@ -102,11 +102,14 @@ npm run build   # outputs to web/out/
 
 ```bash
 cd infra
+source auth.sh                 # authenticate and export AWS credentials into your shell
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 cdk deploy
 ```
+
+> **Note:** `auth.sh` must be run with `source` (not executed directly) so the exported credentials persist in your current shell session. See [infra/README.md](infra/README.md) for more detail.
 
 ### Updating the Website
 
