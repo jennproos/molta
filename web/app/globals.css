@@ -310,6 +310,20 @@ section h2 {
   opacity: 0.55;
 }
 
+.footer-admin-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-size: 0.72rem;
+  opacity: 0.3;
+  color: inherit;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+
+.footer-admin-link:hover {
+  opacity: 0.6;
+}
+
 /* ─── TICKER ─────────────────────────────────────── */
 
 .ticker-wrap {

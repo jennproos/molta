@@ -8,6 +8,8 @@ on:
       - 'web/**'
       - '.github/workflows/deploy-website.yaml'
   workflow_dispatch:
+  repository_dispatch:
+    types: [sanity-content-update]
 
 jobs:
   build-and-deploy:
@@ -31,6 +33,9 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+          NEXT_PUBLIC_SANITY_PROJECT_ID: c8c5zb1s
+          NEXT_PUBLIC_SANITY_DATASET: production
         run: npm run build
 
       - name: Deploy to S3
