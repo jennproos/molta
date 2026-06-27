@@ -7,8 +7,6 @@ export interface Market {
 }
 
 export const markets: Market[] = [
-  { month: 'JUN', day: 20, name: 'Creston Farmers Market', location: 'Grand Rapids, MI', time: '9am – 1pm' },
-  { month: 'JUN', day: 27, name: 'Creston Farmers Market', location: 'Grand Rapids, MI', time: '9am – 1pm' },
   { month: 'JUL', day: 11, name: 'Creston Farmers Market', location: 'Grand Rapids, MI', time: '9am – 1pm' },
   { month: 'JUL', day: 18, name: 'Creston Farmers Market', location: 'Grand Rapids, MI', time: '9am – 1pm' },
   { month: 'JUL', day: 25, name: 'Creston Farmers Market', location: 'Grand Rapids, MI', time: '9am – 1pm' },
