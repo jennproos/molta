@@ -12,9 +12,10 @@ This repository contains the complete website infrastructure and deployment pipe
 
 ```
 molta/
-├── web/              # Next.js website (static export)
-├── infra/            # AWS CDK infrastructure code
-└── .github/          # GitHub Actions workflows
+├── web/                    # Next.js website (static export)
+├── studio-molta-bakery/    # Sanity Studio (content management)
+├── infra/                  # AWS CDK infrastructure code
+└── .github/                # GitHub Actions workflows
 ```
 
 ## Components
@@ -26,13 +27,31 @@ The website for Molta Bakery, built with [Next.js](https://nextjs.org) (App Rout
 Key files and directories:
 - **app/** - App Router pages, layout, and global styles (`page.tsx`, `layout.tsx`, `globals.css`)
 - **components/** - Reusable React components (Hero, About, Markets, Nav, Footer, Ticker, etc.)
-- **data/** - Content data such as market/pop-up listings (`markets.ts`)
+- **lib/sanity.ts** - Sanity client and GROQ queries used at build time
 - **public/** - Static assets (product photos and images)
 - **next.config.ts** - Next.js configuration (static export, unoptimized images)
 
 The site showcases the bakery's offerings and provides a direct link to order through HotPlate. See [web/README.md](web/README.md) for frontend development details.
 
-### 2. Infrastructure (`infra/`)
+### 2. Sanity Studio (`studio-molta-bakery/`)
+
+The content management system for Molta Bakery, hosted at [moltabakery.sanity.studio](https://moltabakery.sanity.studio). Built with [Sanity](https://sanity.io) (project ID: `c8c5zb1s`, dataset: `production`).
+
+Content types managed through the Studio:
+- **Market Schedule** — individual market events with date, location, and time
+- **About** — the about section text (singleton, Portable Text)
+- **Gallery Photos** — images with descriptions for future use
+
+When content is published in the Studio, a Sanity webhook fires a `repository_dispatch` event to GitHub Actions, triggering an automatic site rebuild and deploy (~2 minutes to live).
+
+To run the Studio locally:
+```bash
+cd studio-molta-bakery
+npm install
+npm run dev
+```
+
+### 3. Infrastructure (`infra/`)
 
 AWS CDK (Cloud Development Kit) infrastructure written in Python that provisions:
 - **S3 Bucket** - Hosts the static website files with public read access
@@ -53,7 +72,7 @@ cd infra
 ./run-tests.sh
 ```
 
-### 3. CI/CD Automation (`.github/workflows/`)
+### 4. CI/CD Automation (`.github/workflows/`)
 
 **test-infra.yaml** - Continuous Integration workflow that:
 - Runs on pull requests to `main` branch (when `infra/` files change)
@@ -62,17 +81,14 @@ cd infra
 - Uses Python 3.13 and caches dependencies for fast runs
 
 **deploy-website.yaml** - Deployment workflow that automatically:
-- Triggers on push to `main` branch (when `web/` files change)
+- Triggers on push to `main` (when `web/` files change), `workflow_dispatch`, or `repository_dispatch` from the Sanity webhook
 - Sets up Node.js, installs dependencies (`npm ci`), and builds the static export (`npm run build`)
 - Syncs the generated `web/out/` directory to the S3 bucket
 - Invalidates the CloudFront cache so changes are served immediately
-- Can also be manually triggered via workflow_dispatch
 
-**Deployment Process:**
-1. Push changes to the `web/` directory
-2. GitHub Actions builds the Next.js static export and deploys it to S3
-3. The CloudFront cache is invalidated and serves the updated content globally
-4. Changes are live at moltabakery.com
+**Deployment is triggered two ways:**
+1. **Code change** — push to `web/` on `main` → GitHub Actions builds and deploys
+2. **Content change** — publish in Sanity Studio → webhook fires `repository_dispatch` → GitHub Actions builds and deploys (~2 min to live)
 
 ## Getting Started
 
@@ -111,6 +127,10 @@ cdk deploy
 
 > **Note:** `auth.sh` must be run with `source` (not executed directly) so the exported credentials persist in your current shell session. See [infra/README.md](infra/README.md) for more detail.
 
+### Updating Content
+
+Log in at [moltabakery.sanity.studio](https://moltabakery.sanity.studio) to update the market schedule, about text, or gallery photos. Publishing a change automatically triggers a site rebuild.
+
 ### Updating the Website
 
 Simply edit files in the `web/` directory and push to the `main` branch. The GitHub Actions workflow will automatically deploy your changes.
@@ -127,13 +147,15 @@ aws cloudfront create-invalidation --distribution-id <DISTRIBUTION_ID> --paths "
 ## Architecture
 
 ```
-User Request
+Content update (Sanity Studio)
     ↓
-Route 53 (DNS)
+Sanity webhook → GitHub Actions
     ↓
-CloudFront (CDN)
+Next.js build (fetches content from Sanity API)
     ↓
-S3 Bucket (Next.js static export)
+Static export → S3 Bucket
+    ↑
+User Request → Route 53 → CloudFront → S3
 ```
 
 **Security:**
@@ -143,9 +165,10 @@ S3 Bucket (Next.js static export)
 
 ## Development Workflow
 
-1. **Infrastructure Changes:** Modify CDK code in `infra/`, run tests, deploy with `cdk deploy`
+1. **Content Changes:** Edit in [moltabakery.sanity.studio](https://moltabakery.sanity.studio) and publish — site rebuilds automatically
 2. **Website Changes:** Edit the Next.js app in `web/` (test locally with `npm run dev`), commit and push to trigger an automatic build and deployment
-3. **Testing:** Run infrastructure tests with `cd infra && ./run-tests.sh`
+3. **Infrastructure Changes:** Modify CDK code in `infra/`, run tests, deploy with `cdk deploy`
+4. **Testing:** Run infrastructure tests with `cd infra && ./run-tests.sh`
 
 ## Branch Protection & Quality Gates
 
