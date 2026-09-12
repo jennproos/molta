@@ -36,6 +36,7 @@ jobs:
         env:
           NEXT_PUBLIC_SANITY_PROJECT_ID: c8c5zb1s
           NEXT_PUBLIC_SANITY_DATASET: production
+          NEXT_PUBLIC_CONTACT_API_URL: ${{ secrets.NEXT_PUBLIC_CONTACT_API_URL }}
         run: npm run build
 
       - name: Deploy to S3

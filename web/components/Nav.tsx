@@ -14,6 +14,7 @@ export default function Nav() {
         <ul className={`nav-links${open ? ' nav-open' : ''}`}>
           <li><a href="#about" className="nav-link" onClick={close}>About</a></li>
           <li><a href="#markets" className="nav-link" onClick={close}>Markets</a></li>
+          <li><a href="#contact" className="nav-link" onClick={close}>Contact</a></li>
           <li>
             <a
               href="https://www.instagram.com/molta_gr/"

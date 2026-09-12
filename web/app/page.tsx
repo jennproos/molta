@@ -3,6 +3,7 @@ import Hero from '@/components/Hero';
 import Ticker from '@/components/Ticker';
 import About from '@/components/About';
 import Markets from '@/components/Markets';
+import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/ScrollReveal';
 import {client, MARKETS_QUERY, ABOUT_QUERY} from '@/lib/sanity';
@@ -22,6 +23,7 @@ export default async function Home() {
       <Ticker />
       <About content={about?.body ?? []} />
       <Markets markets={markets} />
+      <Contact />
       <Footer />
       <ScrollReveal />
     </>

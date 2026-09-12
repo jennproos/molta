@@ -26,7 +26,7 @@ The website for Molta Bakery, built with [Next.js](https://nextjs.org) (App Rout
 
 Key files and directories:
 - **app/** - App Router pages, layout, and global styles (`page.tsx`, `layout.tsx`, `globals.css`)
-- **components/** - Reusable React components (Hero, About, Markets, Nav, Footer, Ticker, etc.)
+- **components/** - Reusable React components (Hero, About, Markets, Contact, Nav, Footer, Ticker, etc.)
 - **lib/sanity.ts** - Sanity client and GROQ queries used at build time
 - **public/** - Static assets (product photos and images)
 - **next.config.ts** - Next.js configuration (static export, unoptimized images)
@@ -58,6 +58,8 @@ AWS CDK (Cloud Development Kit) infrastructure written in Python that provisions
 - **CloudFront Distribution** - CDN for fast, global content delivery with HTTPS
 - **Route 53** - DNS management for both root domain and www subdomain
 - **ACM Certificate** - SSL/TLS certificate for secure HTTPS connections
+- **Lambda + API Gateway (HTTP API)** - Backend for the website's contact form (`POST /contact`)
+- **SES** - Sends contact-form submissions by email to the bakery owner, with the visitor's address set as Reply-To
 
 **Key Features:**
 - Infrastructure as Code (IaC) using AWS CDK
@@ -127,6 +129,10 @@ cdk deploy
 
 > **Note:** `auth.sh` must be run with `source` (not executed directly) so the exported credentials persist in your current shell session. See [infra/README.md](infra/README.md) for more detail.
 
+After deploying, two manual steps are needed before the contact form works end-to-end:
+1. Click the SES verification link AWS emails to the contact-form recipient address (SES sandbox mode requires it) — see the comment above `SesRecipientEmailIdentity` in `infra/molta_infra/molta_infra_stack.py`.
+2. Copy the `ContactApiUrl` value printed by `cdk deploy` and add it as a GitHub Actions secret named `NEXT_PUBLIC_CONTACT_API_URL`, then re-run the deploy-website workflow so the site is rebuilt with the real URL.
+
 ### Updating Content
 
 Log in at [moltabakery.sanity.studio](https://moltabakery.sanity.studio) to update the market schedule, about text, or gallery photos. Publishing a change automatically triggers a site rebuild.
@@ -156,6 +162,8 @@ Next.js build (fetches content from Sanity API)
 Static export → S3 Bucket
     ↑
 User Request → Route 53 → CloudFront → S3
+
+Contact form submission → API Gateway (HTTP API) → Lambda → SES → bakery owner's inbox
 ```
 
 **Security:**

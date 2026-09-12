@@ -1,6 +1,8 @@
 
 # Welcome to your CDK Python project!
 
+This stack provisions the Molta website's hosting (S3 + CloudFront + Route 53 + ACM) as well as a contact-form backend: a Lambda function (`lambda_handlers/contact_handler/`) behind an API Gateway HTTP API (`POST /contact`), which sends form submissions via SES to the bakery owner. See the comment above the `SesRecipientEmailIdentity` resource in `molta_infra/molta_infra_stack.py` for the one-time manual SES verification step required after deploy.
+
 ## Prerequisites
 
 Before getting started, ensure you have the following installed:
