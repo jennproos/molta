@@ -286,12 +286,16 @@ section h2 {
 
 .contact {
   padding: 4rem 0;
-  background: #fff;
+  background: #00BF63;
   text-align: center;
 }
 
 .contact h2 {
-  color: #00BF63;
+  color: #F7C5DD;
+}
+
+.contact .section-sub {
+  color: #F7C5DD;
 }
 
 .contact-form {
@@ -314,7 +318,7 @@ section h2 {
   font-size: 0.8rem;
   letter-spacing: 0.06em;
   text-transform: lowercase;
-  color: #222;
+  color: #F7C5DD;
 }
 
 .contact-field input,
@@ -352,8 +356,8 @@ section h2 {
 
 .contact-submit {
   align-self: flex-start;
-  background: #00BF63;
-  color: #fff;
+  background: #F7C5DD;
+  color: #00BF63;
   border: none;
   border-radius: 999px;
   padding: 0.9rem 2.4rem;
@@ -365,7 +369,7 @@ section h2 {
 }
 
 .contact-submit:hover {
-  background: #009e50;
+  background: #f0aece;
 }
 
 .contact-submit:disabled {
@@ -375,23 +379,19 @@ section h2 {
 
 .contact-status {
   font-size: 0.95rem;
+  color: #F7C5DD;
 }
 
-.contact-status-success {
-  color: #00BF63;
-  font-weight: 700;
-}
-
+.contact-status-success,
 .contact-status-error {
-  color: #222;
   font-weight: 700;
 }
 
 /* ─── FOOTER ─────────────────────────────────────── */
 
 .footer {
-  background: #00BF63;
-  color: #F7C5DD;
+  background: #F7C5DD;
+  color: #00BF63;
   padding: 3.5rem 0;
   text-align: center;
 }

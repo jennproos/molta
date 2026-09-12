@@ -208,6 +208,52 @@ def test_contact_form_resource_counts():
     template.resource_count_is("AWS::ApiGatewayV2::Stage", 1)
 
 
+def test_contact_lambda_can_send_via_both_ses_identities():
+    """Test that the Lambda's role is granted ses:SendEmail on both the
+    sender domain identity AND the recipient email identity. Both are
+    required: SES's IAM authorization checks every identity referenced in
+    a SendEmail call, and the recipient is itself a verified SES identity
+    in this account (needed for sandbox mode), so granting only the
+    sender identity isn't sufficient (see AccessDenied regression)."""
+    app = core.App()
+    stack = MoltaInfraStack(app, "infra", env=get_test_env())
+    template = assertions.Template.from_stack(stack)
+
+    matched = template.find_resources("AWS::IAM::Policy", {
+        "Properties": {
+            "PolicyDocument": {
+                "Statement": assertions.Match.array_with([
+                    assertions.Match.object_like({
+                        "Action": assertions.Match.array_with(["ses:SendEmail"]),
+                        "Effect": "Allow",
+                    })
+                ])
+            }
+        }
+    })
+
+    # CDK may emit this as one merged statement (Resource: [a, b]) or two
+    # separate statements (Resource: a) / (Resource: b) depending on policy
+    # minimization settings, so collect every Resource entry across every
+    # matching statement in every matching policy rather than assuming shape.
+    referenced_logical_ids = set()
+    for policy in matched.values():
+        for statement in policy["Properties"]["PolicyDocument"]["Statement"]:
+            if "ses:SendEmail" not in statement.get("Action", []):
+                continue
+            resources = statement["Resource"]
+            resources = resources if isinstance(resources, list) else [resources]
+            for resource in resources:
+                referenced_logical_ids.add(resource["Fn::Join"][1][-1]["Ref"])
+
+    # Cross-reference against the actual SES::EmailIdentity resources in the
+    # template (rather than hardcoding their generated logical IDs) — every
+    # identity must be referenced, not just the sender's.
+    all_email_identity_ids = set(template.find_resources("AWS::SES::EmailIdentity").keys())
+    assert len(all_email_identity_ids) == 2
+    assert referenced_logical_ids == all_email_identity_ids
+
+
 def test_cloudfront_uses_s3_origin():
     """Test that CloudFront distribution uses S3 as origin"""
     app = core.App()

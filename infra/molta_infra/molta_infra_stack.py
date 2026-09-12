@@ -158,7 +158,7 @@ class MoltaInfraStack(Stack):
         #    verification link.
         # 3. Until this is done, SES (in sandbox mode) will reject sends to
         #    this address with a MessageRejected error.
-        ses.EmailIdentity(
+        recipient_identity = ses.EmailIdentity(
             self,
             "SesRecipientEmailIdentity",
             identity=ses.Identity.email(contact_recipient_email),
@@ -182,8 +182,13 @@ class MoltaInfraStack(Stack):
             },
         )
 
-        # Least-privilege: scoped to the domain identity's own ARN, not "*".
+        # Least-privilege: scoped to these two identities' own ARNs, not "*".
+        # Both grants are required: SES's IAM authorization checks every
+        # identity referenced in a SendEmail call, and since the recipient
+        # is itself a verified SES identity in this account (required for
+        # sandbox mode), permission on the sender identity alone isn't enough.
         sender_identity.grant_send_email(contact_handler)
+        recipient_identity.grant_send_email(contact_handler)
 
         # ─── CONTACT FORM: HTTP API ─────────────────────────
         contact_http_api = apigwv2.HttpApi(
