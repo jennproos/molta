@@ -190,6 +190,27 @@ class MoltaInfraStack(Stack):
         sender_identity.grant_send_email(contact_handler)
         recipient_identity.grant_send_email(contact_handler)
 
+        # ─── SERVICES PAGE: REQUEST/INQUIRY LAMBDA ──────────
+        service_inquiry_handler = _lambda.Function(
+            self,
+            "ServiceInquiryHandler",
+            function_name="molta-service-inquiry-handler",
+            runtime=_lambda.Runtime.PYTHON_3_13,
+            handler="handler.lambda_handler",
+            code=_lambda.Code.from_asset(
+                os.path.join(os.path.dirname(__file__), "..", "lambda_handlers", "service_inquiry_handler")
+            ),
+            timeout=Duration.seconds(10),
+            memory_size=128,
+            environment={
+                "SENDER_EMAIL": contact_sender_email,
+                "RECIPIENT_EMAIL": contact_recipient_email,
+            },
+        )
+
+        sender_identity.grant_send_email(service_inquiry_handler)
+        recipient_identity.grant_send_email(service_inquiry_handler)
+
         # ─── CONTACT FORM: HTTP API ─────────────────────────
         contact_http_api = apigwv2.HttpApi(
             self,
@@ -213,6 +234,17 @@ class MoltaInfraStack(Stack):
             methods=[apigwv2.HttpMethod.POST],
             integration=apigwv2_integrations.HttpLambdaIntegration(
                 "ContactFormIntegration", contact_handler
+            ),
+        )
+
+        # Reuses the same HTTP API, CORS config, and throttled $default stage
+        # as the contact form — the Services page inquiry form is the same
+        # shape of low-volume, public, unauthenticated form submission.
+        contact_http_api.add_routes(
+            path="/service-inquiry",
+            methods=[apigwv2.HttpMethod.POST],
+            integration=apigwv2_integrations.HttpLambdaIntegration(
+                "ServiceInquiryIntegration", service_inquiry_handler
             ),
         )
 

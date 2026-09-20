@@ -180,6 +180,31 @@ def test_contact_route_created():
     })
 
 
+def test_service_inquiry_lambda_created():
+    """Test that the Services page request-form Lambda is created with correct runtime and handler"""
+    app = core.App()
+    stack = MoltaInfraStack(app, "infra", env=get_test_env())
+    template = assertions.Template.from_stack(stack)
+
+    template.has_resource_properties("AWS::Lambda::Function", {
+        "FunctionName": "molta-service-inquiry-handler",
+        "Runtime": "python3.13",
+        "Handler": "handler.lambda_handler",
+        "Timeout": 10
+    })
+
+
+def test_service_inquiry_route_created():
+    """Test that the POST /service-inquiry route is created on the same HTTP API as /contact"""
+    app = core.App()
+    stack = MoltaInfraStack(app, "infra", env=get_test_env())
+    template = assertions.Template.from_stack(stack)
+
+    template.has_resource_properties("AWS::ApiGatewayV2::Route", {
+        "RouteKey": "POST /service-inquiry"
+    })
+
+
 def test_contact_stage_has_throttling():
     """Test that the contact API's default stage has throttling configured"""
     app = core.App()
@@ -196,15 +221,18 @@ def test_contact_stage_has_throttling():
 
 
 def test_contact_form_resource_counts():
-    """Test that exactly the expected number of contact-form resources exist"""
+    """Test that exactly the expected number of form-handling resources exist:
+    the contact form and the Services page request form share one HTTP API,
+    one stage, and the two SES identities, but each has its own Lambda and
+    route."""
     app = core.App()
     stack = MoltaInfraStack(app, "infra", env=get_test_env())
     template = assertions.Template.from_stack(stack)
 
     template.resource_count_is("AWS::SES::EmailIdentity", 2)
-    template.resource_count_is("AWS::Lambda::Function", 1)
+    template.resource_count_is("AWS::Lambda::Function", 2)
     template.resource_count_is("AWS::ApiGatewayV2::Api", 1)
-    template.resource_count_is("AWS::ApiGatewayV2::Route", 1)
+    template.resource_count_is("AWS::ApiGatewayV2::Route", 2)
     template.resource_count_is("AWS::ApiGatewayV2::Stage", 1)
 
 

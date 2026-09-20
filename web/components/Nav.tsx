@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
@@ -10,11 +11,14 @@ export default function Nav() {
   return (
     <nav className="nav">
       <div className="nav-inner">
-        <a href="#" className="nav-logo">Molta</a>
+        <Link href="/" className="nav-logo">Molta</Link>
         <ul className={`nav-links${open ? ' nav-open' : ''}`}>
-          <li><a href="#about" className="nav-link" onClick={close}>About</a></li>
-          <li><a href="#markets" className="nav-link" onClick={close}>Markets</a></li>
-          <li><a href="#contact" className="nav-link" onClick={close}>Contact</a></li>
+          <li><Link href="/#about" className="nav-link" onClick={close}>About</Link></li>
+          <li><Link href="/#markets" className="nav-link" onClick={close}>Markets</Link></li>
+          {process.env.NEXT_PUBLIC_SERVICES_ENABLED === 'true' && (
+            <li><Link href="/services" className="nav-link" onClick={close}>Services</Link></li>
+          )}
+          <li><Link href="/#contact" className="nav-link" onClick={close}>Contact</Link></li>
           <li>
             <a
               href="https://www.instagram.com/molta_gr/"

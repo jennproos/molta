@@ -37,6 +37,9 @@ jobs:
           NEXT_PUBLIC_SANITY_PROJECT_ID: c8c5zb1s
           NEXT_PUBLIC_SANITY_DATASET: production
           NEXT_PUBLIC_CONTACT_API_URL: ${{ secrets.NEXT_PUBLIC_CONTACT_API_URL }}
+          # Feature flag: the Services page is built but not launched yet.
+          # Flip to 'true' and push (or re-run this workflow) to go live.
+          NEXT_PUBLIC_SERVICES_ENABLED: 'false'
         run: npm run build
 
       - name: Deploy to S3

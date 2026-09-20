@@ -15,7 +15,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 body {
-  font-family: 'SN Pro', sans-serif;
+  font-family: 'Karla', sans-serif;
   font-weight: 400;
   line-height: 1.7;
   color: #222;
@@ -284,17 +284,20 @@ section h2 {
 
 /* ─── CONTACT ────────────────────────────────────── */
 
-.contact {
+.contact,
+.service-inquiry {
   padding: 4rem 0;
   background: #00BF63;
   text-align: center;
 }
 
-.contact h2 {
+.contact h2,
+.service-inquiry h2 {
   color: #F7C5DD;
 }
 
-.contact .section-sub {
+.contact .section-sub,
+.service-inquiry .section-sub {
   color: #F7C5DD;
 }
 
@@ -324,7 +327,7 @@ section h2 {
 .contact-field input,
 .contact-field select,
 .contact-field textarea {
-  font-family: 'SN Pro', sans-serif;
+  font-family: 'Karla', sans-serif;
   font-size: 1rem;
   color: #222;
   background: #fff;
@@ -385,6 +388,290 @@ section h2 {
 .contact-status-success,
 .contact-status-error {
   font-weight: 700;
+}
+
+/* ─── SERVICES PAGE ──────────────────────────────── */
+
+.services-hero {
+  padding: 3.5rem 0 3rem;
+  background: #fff;
+  text-align: center;
+}
+
+.services-back-link {
+  display: inline-block;
+  margin-bottom: 1.75rem;
+  font-family: "BBH Sans Hegarty", sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: #00BF63;
+  text-decoration: none;
+}
+
+.services-back-link:hover {
+  text-decoration: underline;
+}
+
+.services-hero h1 {
+  font-size: 3.5rem;
+  color: #222;
+  margin-bottom: 1rem;
+}
+
+.services-hero-sub {
+  max-width: 640px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+  color: #555;
+  line-height: 1.75;
+}
+
+.service-section {
+  padding: 4.5rem 0;
+  text-align: center;
+}
+
+.service-section-pink {
+  background: #F7C5DD;
+}
+
+.service-section-green {
+  background: #00BF63;
+}
+
+.service-section-green h2,
+.service-section-green h3,
+.service-section-green h4,
+.service-section-green p,
+.service-section-green li {
+  color: #F7C5DD;
+}
+
+.service-section-green .service-card,
+.service-section-green .service-card * {
+  color: #222;
+}
+
+.service-section-green .service-card .service-card-price {
+  color: #00BF63;
+}
+
+.service-section-green .service-card .service-card-subtitle {
+  color: #888;
+}
+
+.service-description {
+  max-width: 700px;
+  margin: 0 auto 2.5rem;
+  font-size: 1.05rem;
+  text-align: left;
+}
+
+.service-description p {
+  margin-bottom: 1rem;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.service-card {
+  background: #fff;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 1.75rem;
+  text-align: left;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.service-card:hover {
+  border-color: #00BF63;
+  box-shadow: 0 6px 24px rgba(0, 191, 99, 0.12);
+}
+
+.service-card h3 {
+  font-size: 1.2rem;
+  color: #222;
+  margin-bottom: 0.4rem;
+}
+
+.service-card-subtitle {
+  font-size: 0.85rem;
+  color: #888;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
+.service-card-ingredients {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.service-card-price {
+  font-family: "BBH Sans Hegarty", sans-serif;
+  color: #00BF63;
+  font-size: 1.1rem;
+}
+
+.service-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2.5rem;
+  text-align: left;
+  max-width: 900px;
+  margin: 0 auto 2rem;
+}
+
+.service-detail-block h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.service-note {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  margin-top: 0.5rem;
+}
+
+.service-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.service-list li {
+  font-size: 0.95rem;
+}
+
+.service-dietary-note {
+  font-size: 0.9rem;
+  font-style: italic;
+  opacity: 0.85;
+  margin-top: 1rem;
+}
+
+/* ─── TESTIMONIALS ───────────────────────────────── */
+
+.testimonials {
+  margin-top: 3rem;
+  text-align: left;
+}
+
+.testimonials h4 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.testimonial-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 0;
+}
+
+.testimonial-card p {
+  color: #222;
+  font-style: italic;
+  margin-bottom: 0.75rem;
+}
+
+.testimonial-card cite {
+  display: block;
+  font-family: "BBH Sans Hegarty", sans-serif;
+  font-style: normal;
+  font-size: 0.85rem;
+  color: #00BF63;
+}
+
+/* ─── SERVICE INQUIRY FORM ───────────────────────── */
+
+.contact-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contact-fieldset legend {
+  font-family: "BBH Sans Hegarty", sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: #F7C5DD;
+  padding: 0;
+  margin-bottom: 0.6rem;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.6rem;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+}
+
+.checkbox-option input {
+  accent-color: #F7C5DD;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.quantity-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.quantity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: #fff;
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+}
+
+.quantity-row-price {
+  color: #F7C5DD;
+  font-size: 0.85rem;
+  margin-left: 0.4rem;
+}
+
+.quantity-row input {
+  width: 64px;
+  font-family: 'Karla', sans-serif;
+  font-size: 1rem;
+  color: #222;
+  background: #fff;
+  border: 2px solid #F7C5DD;
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  text-align: center;
 }
 
 /* ─── FOOTER ─────────────────────────────────────── */
@@ -578,8 +865,18 @@ section h2 {
 
   .about,
   .markets,
-  .contact {
+  .contact,
+  .service-section,
+  .service-inquiry {
     padding: 5rem 0;
+  }
+
+  .services-hero h1 {
+    font-size: 2.6rem;
+  }
+
+  .service-details {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -598,5 +895,9 @@ section h2 {
 
   .contact-submit {
     width: 100%;
+  }
+
+  .quantity-row {
+    flex-wrap: wrap;
   }
 }
