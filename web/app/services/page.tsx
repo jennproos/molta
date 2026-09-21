@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/ScrollReveal';
@@ -16,32 +15,37 @@ import {
   TESTIMONIALS_QUERY,
 } from '@/lib/sanity';
 
-// Build-time feature flag: the Services page isn't public yet. Flip
+// Build-time feature flag: the Services page isn't publicly launched yet.
+// The page itself always builds and is reachable at this URL (an unlisted
+// preview link to share directly), but while the flag is off it's kept out
+// of the nav (see Nav.tsx) and marked noindex so it doesn't show up in
+// search results or get linked from anywhere on the site. Flip
 // NEXT_PUBLIC_SERVICES_ENABLED to 'true' in the deploy workflow (and
-// redeploy) to launch it. While off, this route builds to a plain
-// "not found" page with no Services content or metadata in its source,
-// and the nav link is hidden (see Nav.tsx).
+// redeploy) to launch it for real.
 const SERVICES_ENABLED = process.env.NEXT_PUBLIC_SERVICES_ENABLED === 'true';
 
 export function generateMetadata(): Metadata {
-  if (!SERVICES_ENABLED) return {};
+  const title = 'Services — Molta Bakery';
+  const description = 'Pastry box subscriptions, group lunch sandwich orders, and bread & English muffin subscriptions from Molta Bakery.';
 
   return {
-    title: 'Services — Molta Bakery',
-    description: 'Pastry box subscriptions, group lunch sandwich orders, and bread & English muffin subscriptions from Molta Bakery.',
-    openGraph: {
-      title: 'Services — Molta Bakery',
-      description: 'Pastry box subscriptions, group lunch sandwich orders, and bread & English muffin subscriptions from Molta Bakery.',
-      url: 'https://moltabakery.com/services',
-      images: [{ url: 'https://moltabakery.com/images/molta-popup.jpeg' }],
-      type: 'website',
-    },
+    title,
+    description,
+    ...(SERVICES_ENABLED
+      ? {
+          openGraph: {
+            title,
+            description,
+            url: 'https://moltabakery.com/services',
+            images: [{ url: 'https://moltabakery.com/images/molta-popup.jpeg' }],
+            type: 'website',
+          },
+        }
+      : { robots: { index: false, follow: false } }),
   };
 }
 
 export default async function ServicesPage() {
-  if (!SERVICES_ENABLED) notFound();
-
   const [pastryBox, sandwiches, bread, pastryBoxTestimonials] = await Promise.all([
     client.fetch(PASTRY_BOX_QUERY),
     client.fetch(SANDWICH_SERVICE_QUERY),
