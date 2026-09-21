@@ -68,6 +68,24 @@ class MoltaInfraStack(Stack):
             validation=acm.CertificateValidation.from_dns(hosted_zone)
         )
 
+        # Next.js's static export writes each route as a flat "<route>.html"
+        # file (e.g. services.html), but a browser request for the clean URL
+        # "/services" asks the S3 origin for an object literally named
+        # "services", which doesn't exist. This rewrites extension-less,
+        # non-root request URIs to append ".html" at the edge before they
+        # reach S3, so any current or future secondary page resolves
+        # correctly instead of silently falling through to the site's S3
+        # error-document (index.html, served with a 404 status).
+        clean_urls_function = cloudfront.Function(
+            self,
+            "CleanUrlsFunction",
+            function_name="molta-clean-urls",
+            code=cloudfront.FunctionCode.from_file(
+                file_path=os.path.join(os.path.dirname(__file__), "..", "cloudfront_functions", "clean_urls.js")
+            ),
+            runtime=cloudfront.FunctionRuntime.JS_2_0,
+        )
+
         distribution = cloudfront.Distribution(
             self,
             "SiteDistribution",
@@ -77,7 +95,13 @@ class MoltaInfraStack(Stack):
             default_behavior=cloudfront.BehaviorOptions(
                 origin=origins.S3StaticWebsiteOrigin(domain_bucket),
                 allowed_methods=cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
-                viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS
+                viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+                function_associations=[
+                    cloudfront.FunctionAssociation(
+                        function=clean_urls_function,
+                        event_type=cloudfront.FunctionEventType.VIEWER_REQUEST,
+                    )
+                ],
             )
         )
 

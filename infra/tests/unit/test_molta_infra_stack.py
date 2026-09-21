@@ -53,6 +53,43 @@ def test_cloudfront_distribution_created():
     })
 
 
+def test_clean_urls_function_created():
+    """Test that the CloudFront Function rewriting extension-less URIs to
+    "<path>.html" exists, so static-export routes like /services resolve
+    against S3 instead of falling through to the error document."""
+    app = core.App()
+    stack = MoltaInfraStack(app, "infra", env=get_test_env())
+    template = assertions.Template.from_stack(stack)
+
+    template.has_resource_properties("AWS::CloudFront::Function", {
+        "Name": "molta-clean-urls",
+        "FunctionConfig": {
+            "Runtime": "cloudfront-js-2.0"
+        }
+    })
+
+
+def test_clean_urls_function_associated_with_distribution():
+    """Test that the clean-urls function is wired up as a viewer-request
+    function association on the distribution's default cache behavior."""
+    app = core.App()
+    stack = MoltaInfraStack(app, "infra", env=get_test_env())
+    template = assertions.Template.from_stack(stack)
+
+    template.has_resource_properties("AWS::CloudFront::Distribution", {
+        "DistributionConfig": {
+            "DefaultCacheBehavior": {
+                "FunctionAssociations": assertions.Match.array_with([
+                    assertions.Match.object_like({
+                        "EventType": "viewer-request",
+                        "FunctionARN": assertions.Match.any_value(),
+                    })
+                ])
+            }
+        }
+    })
+
+
 def test_acm_certificate_created():
     """Test that ACM certificate is created with correct domain names"""
     app = core.App()
