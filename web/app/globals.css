@@ -393,29 +393,14 @@ section h2 {
 /* ─── SERVICES PAGE ──────────────────────────────── */
 
 .services-hero {
-  padding: 3.5rem 0 3rem;
-  background: #fff;
+  padding: 4rem 0 3.5rem;
+  background: #00BF63;
   text-align: center;
 }
 
-.services-back-link {
-  display: inline-block;
-  margin-bottom: 1.75rem;
-  font-family: "BBH Sans Hegarty", sans-serif;
-  font-size: 0.85rem;
-  letter-spacing: 0.04em;
-  text-transform: lowercase;
-  color: #00BF63;
-  text-decoration: none;
-}
-
-.services-back-link:hover {
-  text-decoration: underline;
-}
-
 .services-hero h1 {
-  font-size: 3.5rem;
-  color: #222;
+  font-size: 6rem;
+  color: #F7C5DD;
   margin-bottom: 1rem;
 }
 
@@ -423,7 +408,7 @@ section h2 {
   max-width: 640px;
   margin: 0 auto;
   font-size: 1.05rem;
-  color: #555;
+  color: #F7C5DD;
   line-height: 1.75;
 }
 
@@ -872,7 +857,7 @@ section h2 {
   }
 
   .services-hero h1 {
-    font-size: 2.6rem;
+    font-size: 4rem;
   }
 
   .service-details {
@@ -887,6 +872,10 @@ section h2 {
 
   .hero-sub {
     font-size: 1rem;
+  }
+
+  .services-hero h1 {
+    font-size: 3rem;
   }
 
   .market-card {
