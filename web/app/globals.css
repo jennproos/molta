@@ -524,6 +524,10 @@ section h2 {
   margin-top: 0.5rem;
 }
 
+.service-note-spaced {
+  margin-bottom: 2.5rem;
+}
+
 .service-list {
   list-style: none;
   display: flex;

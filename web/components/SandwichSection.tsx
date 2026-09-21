@@ -13,7 +13,9 @@ export default function SandwichSection({data}: {data: SandwichServiceData}) {
           </div>
         )}
 
-        {data.groupOrderNote && <p className="service-note">{data.groupOrderNote}</p>}
+        {data.groupOrderNote && (
+          <p className="service-note service-note-spaced">{data.groupOrderNote}</p>
+        )}
 
         {data.sandwiches?.length > 0 && (
           <div className="service-grid">
