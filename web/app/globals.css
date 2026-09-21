@@ -405,11 +405,12 @@ section h2 {
 }
 
 .services-hero-sub {
-  max-width: 640px;
+  max-width: 900px;
   margin: 0 auto;
   font-size: 1.05rem;
   color: #F7C5DD;
   line-height: 1.75;
+  text-align: left;
 }
 
 .service-section {
@@ -447,7 +448,7 @@ section h2 {
 }
 
 .service-description {
-  max-width: 700px;
+  max-width: 900px;
   margin: 0 auto 2.5rem;
   font-size: 1.05rem;
   text-align: left;
