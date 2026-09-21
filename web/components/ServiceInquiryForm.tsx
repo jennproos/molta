@@ -265,11 +265,11 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
 
               {sandwiches.sides?.length > 0 && (
                 <fieldset className="contact-field contact-fieldset">
-                  <legend>sides &amp; quantities (per person)</legend>
+                  <legend>sides &amp; quantities</legend>
                   <div className="quantity-grid">
                     {sandwiches.sides.map((side) => (
                       <div className="quantity-row" key={side._key}>
-                        <span>{side.name} <span className="quantity-row-price">${side.pricePerPerson}/person</span></span>
+                        <span>{side.name} <span className="quantity-row-price">${side.pricePerPerson}</span></span>
                         <input
                           type="number"
                           min={0}

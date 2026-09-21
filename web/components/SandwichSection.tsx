@@ -39,7 +39,7 @@ export default function SandwichSection({data}: {data: SandwichServiceData}) {
             <h4 className="service-product-heading">sides</h4>
             <ul className="service-list service-list-spaced">
               {data.sides.map((side) => (
-                <li key={side._key}>{side.name} — ${side.pricePerPerson} / person</li>
+                <li key={side._key}>{side.name} — ${side.pricePerPerson}</li>
               ))}
             </ul>
           </>
