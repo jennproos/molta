@@ -121,7 +121,7 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
       <div className="section-inner reveal">
         <h2>request an order</h2>
         <p className="section-sub">
-          tell us what you&apos;re after — Cole will confirm availability and follow up with an
+          tell us what you&apos;re after — I&apos;ll confirm availability and follow up with an
           invoice to complete your order.
         </p>
 
@@ -357,7 +357,7 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
 
           {status === 'success' && (
             <p className="contact-status contact-status-success">
-              thanks! Cole will confirm availability and follow up with next steps.
+              thanks! I&apos;ll confirm availability and follow up with next steps.
             </p>
           )}
           {status === 'error' && (

@@ -21,7 +21,7 @@ const pastryBoxService = {
   _type: 'pastryBoxService',
   description: portableText(
     [
-      "Cole makes a variety pastry box that's yours to enjoy — pick it up or have it delivered for a small fee. Choose a one-time box or set up a recurring subscription on the schedule that works for you.",
+      "I'll make a variety pastry box that's yours to enjoy — pick it up or have it delivered for a small fee. Choose a one-time box or set up a recurring subscription on the schedule that works for you.",
     ],
     'pbDesc',
   ),
@@ -55,12 +55,12 @@ const sandwichService = {
   _type: 'sandwichService',
   description: portableText(
     [
-      "Cole makes delicious sandwiches on his special slab bread for group orders — perfect for an office lunch. Pick up or have them delivered for a small fee.",
+      "I'll make delicious sandwiches on my special slab bread for group orders — perfect for an office lunch. Pick up or have them delivered for a small fee.",
     ],
     'swDesc',
   ),
   groupOrderNote:
-    'Group orders only, for now. Select your date, Cole confirms he can make it work, and your group enjoys fresh sandwiches together.',
+    "Group orders only, for now. Select your date, I'll confirm I can make it work, and your group enjoys fresh sandwiches together.",
   sandwiches: [
     {
       _key: 'riseShineBlt',
