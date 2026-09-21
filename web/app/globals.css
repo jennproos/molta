@@ -528,6 +528,15 @@ section h2 {
   margin-bottom: 2.5rem;
 }
 
+.service-detail-block-spaced {
+  margin-bottom: 2.5rem;
+}
+
+.service-product-heading {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
 .service-list {
   list-style: none;
   display: flex;

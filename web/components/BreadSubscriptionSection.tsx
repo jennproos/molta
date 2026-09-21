@@ -17,7 +17,7 @@ export default function BreadSubscriptionSection({data}: {data: BreadSubscriptio
           </div>
         )}
 
-        <div className="service-detail-block">
+        <div className="service-detail-block service-detail-block-spaced">
           {data.frequencyOptions?.length > 0 && (
             <p className="service-note">Frequencies: {data.frequencyOptions.join(', ')}.</p>
           )}
@@ -30,7 +30,7 @@ export default function BreadSubscriptionSection({data}: {data: BreadSubscriptio
 
         {breadProducts.length > 0 && (
           <>
-            <h4>bread</h4>
+            <h4 className="service-product-heading">bread</h4>
             <div className="service-grid">
               {breadProducts.map((product) => (
                 <div className="service-card" key={product._key}>
@@ -45,7 +45,7 @@ export default function BreadSubscriptionSection({data}: {data: BreadSubscriptio
 
         {muffinProducts.length > 0 && (
           <>
-            <h4>english muffins</h4>
+            <h4 className="service-product-heading">english muffins</h4>
             <div className="service-grid">
               {muffinProducts.map((product) => (
                 <div className="service-card" key={product._key}>
