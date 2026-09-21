@@ -34,6 +34,17 @@ export default function SandwichSection({data}: {data: SandwichServiceData}) {
           </div>
         )}
 
+        {data.sides?.length > 0 && (
+          <>
+            <h4 className="service-product-heading">sides</h4>
+            <ul className="service-list service-list-spaced">
+              {data.sides.map((side) => (
+                <li key={side._key}>{side.name} — ${side.pricePerPerson} / person</li>
+              ))}
+            </ul>
+          </>
+        )}
+
         <div className="service-detail-block">
           {data.modificationNote && <p className="service-note">{data.modificationNote}</p>}
           {data.dietaryNote && <p className="service-note">{data.dietaryNote}</p>}

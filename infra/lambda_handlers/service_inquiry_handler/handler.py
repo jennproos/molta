@@ -60,6 +60,15 @@ def _format_sandwiches_details(details):
             name = item.get("name", "Unknown")
             quantity = item.get("quantity", "?")
             lines.append(f"  - {name} x {quantity}")
+    sides = details.get("sides")
+    if isinstance(sides, list) and sides:
+        lines.append("Sides:")
+        for item in sides:
+            if not isinstance(item, dict):
+                continue
+            name = item.get("name", "Unknown")
+            quantity = item.get("quantity", "?")
+            lines.append(f"  - {name} x {quantity}")
     return lines
 
 

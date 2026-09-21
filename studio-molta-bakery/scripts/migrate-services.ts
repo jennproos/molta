@@ -84,6 +84,12 @@ const sandwichService = {
       price: 14,
     },
   ],
+  sides: [
+    {_key: 'chips', name: 'Chips', pricePerPerson: 2},
+    {_key: 'pickles', name: 'Pickles', pricePerPerson: 1.5},
+    {_key: 'macSalad', name: 'Macaroni Salad', pricePerPerson: 3.5},
+    {_key: 'chocolateChipCookie', name: 'Chocolate Chip Cookie', pricePerPerson: 2.5},
+  ],
   modificationNote: 'All sandwiches can be modified upon request.',
   dietaryNote: 'Gluten-free and vegan options available upon request.',
   deliveryFee: 10,

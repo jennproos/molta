@@ -52,6 +52,32 @@ export const sandwichService = defineType({
       ],
     }),
     defineField({
+      name: 'sides',
+      title: 'Sides',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'sandwichSide',
+          fields: [
+            defineField({name: 'name', title: 'Name', type: 'string', validation: (Rule) => Rule.required()}),
+            defineField({
+              name: 'pricePerPerson',
+              title: 'Price per person (USD)',
+              type: 'number',
+              validation: (Rule) => Rule.required().min(0),
+            }),
+          ],
+          preview: {
+            select: {title: 'name', subtitle: 'pricePerPerson'},
+            prepare({title, subtitle}) {
+              return {title, subtitle: subtitle != null ? `$${subtitle} / person` : undefined}
+            },
+          },
+        }),
+      ],
+    }),
+    defineField({
       name: 'modificationNote',
       title: 'Modification note',
       type: 'string',

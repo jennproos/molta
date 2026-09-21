@@ -33,6 +33,7 @@ export const SANDWICH_SERVICE_QUERY = defineQuery(
     description,
     groupOrderNote,
     sandwiches[] { _key, name, classicName, ingredients, price },
+    sides[] { _key, name, pricePerPerson },
     modificationNote,
     dietaryNote,
     deliveryFee

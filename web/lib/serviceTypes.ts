@@ -32,10 +32,17 @@ export interface Sandwich {
   price: number;
 }
 
+export interface SandwichSide {
+  _key: string;
+  name: string;
+  pricePerPerson: number;
+}
+
 export interface SandwichServiceData {
   description: PortableTextBlock[];
   groupOrderNote?: string;
   sandwiches: Sandwich[];
+  sides: SandwichSide[];
   modificationNote?: string;
   dietaryNote?: string;
   deliveryFee?: number;

@@ -548,6 +548,10 @@ section h2 {
   font-size: 0.95rem;
 }
 
+.service-list-spaced {
+  margin-bottom: 2.5rem;
+}
+
 .service-dietary-note {
   font-size: 0.9rem;
   font-style: italic;

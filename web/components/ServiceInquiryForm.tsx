@@ -33,6 +33,7 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
   // Sandwich fields
   const [preferredDate, setPreferredDate] = useState('');
   const [sandwichQuantities, setSandwichQuantities] = useState<Record<string, number>>({});
+  const [sideQuantities, setSideQuantities] = useState<Record<string, number>>({});
 
   // Bread fields
   const [breadFrequency, setBreadFrequency] = useState('');
@@ -60,6 +61,10 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
     setSandwichQuantities((current) => ({ ...current, [sandwichName]: Math.max(0, quantity) }));
   };
 
+  const setSideQuantity = (sideName: string, quantity: number) => {
+    setSideQuantities((current) => ({ ...current, [sideName]: Math.max(0, quantity) }));
+  };
+
   const resetServiceFields = (next: ServiceKey) => {
     setService(next);
     setFulfillment('');
@@ -69,6 +74,7 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
     setSelectedPastries([]);
     setPreferredDate('');
     setSandwichQuantities({});
+    setSideQuantities({});
     setBreadFrequency('');
     setSelectedProducts([]);
   };
@@ -88,7 +94,12 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
       details = { purchaseType: resolvedPurchaseType, frequency, size, pastries: selectedPastries };
     } else if (service === 'sandwiches') {
       const sandwichSelections = Object.entries(sandwichQuantities).filter(([, qty]) => qty > 0);
-      details = { preferredDate, sandwiches: sandwichSelections.map(([n, qty]) => ({ name: n, quantity: qty })) };
+      const sideSelections = Object.entries(sideQuantities).filter(([, qty]) => qty > 0);
+      details = {
+        preferredDate,
+        sandwiches: sandwichSelections.map(([n, qty]) => ({ name: n, quantity: qty })),
+        sides: sideSelections.map(([n, qty]) => ({ name: n, quantity: qty })),
+      };
     } else if (service === 'breadSubscription') {
       details = { frequency: breadFrequency, products: selectedProducts };
     }
@@ -251,6 +262,25 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
                   ))}
                 </div>
               </fieldset>
+
+              {sandwiches.sides?.length > 0 && (
+                <fieldset className="contact-field contact-fieldset">
+                  <legend>sides &amp; quantities (per person)</legend>
+                  <div className="quantity-grid">
+                    {sandwiches.sides.map((side) => (
+                      <div className="quantity-row" key={side._key}>
+                        <span>{side.name} <span className="quantity-row-price">${side.pricePerPerson}/person</span></span>
+                        <input
+                          type="number"
+                          min={0}
+                          value={sideQuantities[side.name] ?? 0}
+                          onChange={(e) => setSideQuantity(side.name, Number(e.target.value))}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </fieldset>
+              )}
             </>
           )}
 
