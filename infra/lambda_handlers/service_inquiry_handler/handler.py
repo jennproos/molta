@@ -39,6 +39,9 @@ def _format_pastry_box_details(details):
         lines.append(f"Purchase type: {details['purchaseType']}")
     if details.get("frequency"):
         lines.append(f"Frequency: {details['frequency']}")
+    days = details.get("days")
+    if isinstance(days, list) and days:
+        lines.append(f"Day(s): {', '.join(str(d) for d in days)}")
     if details.get("size"):
         lines.append(f"Size: {details['size']}")
     pastries = details.get("pastries")
@@ -76,6 +79,9 @@ def _format_bread_subscription_details(details):
     lines = []
     if details.get("frequency"):
         lines.append(f"Frequency: {details['frequency']}")
+    days = details.get("days")
+    if isinstance(days, list) and days:
+        lines.append(f"Day(s): {', '.join(str(d) for d in days)}")
     products = details.get("products")
     if isinstance(products, list) and products:
         lines.append(f"Products: {', '.join(str(p) for p in products)}")

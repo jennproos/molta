@@ -1,12 +1,16 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, Dispatch, SetStateAction } from 'react';
 import type { PastryBoxData, SandwichServiceData, BreadSubscriptionData } from '@/lib/serviceTypes';
 
 type ServiceKey = '' | 'pastryBox' | 'sandwiches' | 'breadSubscription';
 type Fulfillment = '' | 'Pickup' | 'Delivery';
 type PurchaseType = '' | 'One-time' | 'Subscription';
 type Status = 'idle' | 'submitting' | 'success' | 'error';
+
+const DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+const maxDaysForFrequency = (freq: string) => (freq === 'Twice a week' ? 2 : 1);
 
 interface Props {
   pastryBox: PastryBoxData | null;
@@ -29,6 +33,7 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
   const [frequency, setFrequency] = useState('');
   const [size, setSize] = useState('');
   const [selectedPastries, setSelectedPastries] = useState<string[]>([]);
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
   // Sandwich fields
   const [preferredDate, setPreferredDate] = useState('');
@@ -38,6 +43,7 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
   // Bread fields
   const [breadFrequency, setBreadFrequency] = useState('');
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const [selectedBreadDays, setSelectedBreadDays] = useState<string[]>([]);
 
   const maxPastryTypes = pastryBox?.maxPastryTypesPerBox ?? 4;
 
@@ -46,6 +52,18 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
       if (current.includes(pastryName)) return current.filter((p) => p !== pastryName);
       if (current.length >= maxPastryTypes) return current;
       return [...current, pastryName];
+    });
+  };
+
+  const toggleDay = (
+    day: string,
+    maxDays: number,
+    setDays: Dispatch<SetStateAction<string[]>>,
+  ) => {
+    setDays((current) => {
+      if (current.includes(day)) return current.filter((d) => d !== day);
+      if (current.length >= maxDays) return current;
+      return [...current, day];
     });
   };
 
@@ -72,11 +90,23 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
     setFrequency('');
     setSize('');
     setSelectedPastries([]);
+    setSelectedDays([]);
     setPreferredDate('');
     setSandwichQuantities({});
     setSideQuantities({});
     setBreadFrequency('');
     setSelectedProducts([]);
+    setSelectedBreadDays([]);
+  };
+
+  const handleFrequencyChange = (value: string) => {
+    setFrequency(value);
+    setSelectedDays([]);
+  };
+
+  const handleBreadFrequencyChange = (value: string) => {
+    setBreadFrequency(value);
+    setSelectedBreadDays([]);
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -91,7 +121,13 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
     if (service === 'pastryBox') {
       const resolvedPurchaseType =
         purchaseType || (pastryBox && !pastryBox.oneTimePurchaseAvailable ? 'Subscription' : '');
-      details = { purchaseType: resolvedPurchaseType, frequency, size, pastries: selectedPastries };
+      details = {
+        purchaseType: resolvedPurchaseType,
+        frequency,
+        days: selectedDays,
+        size,
+        pastries: selectedPastries,
+      };
     } else if (service === 'sandwiches') {
       const sandwichSelections = Object.entries(sandwichQuantities).filter(([, qty]) => qty > 0);
       const sideSelections = Object.entries(sideQuantities).filter(([, qty]) => qty > 0);
@@ -101,7 +137,7 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
         sides: sideSelections.map(([n, qty]) => ({ name: n, quantity: qty })),
       };
     } else if (service === 'breadSubscription') {
-      details = { frequency: breadFrequency, products: selectedProducts };
+      details = { frequency: breadFrequency, days: selectedBreadDays, products: selectedProducts };
     }
 
     setStatus('submitting');
@@ -187,7 +223,7 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
                   <select
                     id="pb-frequency"
                     value={frequency}
-                    onChange={(e) => setFrequency(e.target.value)}
+                    onChange={(e) => handleFrequencyChange(e.target.value)}
                     required
                   >
                     <option value="" disabled>select one</option>
@@ -196,6 +232,31 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
                     ))}
                   </select>
                 </div>
+              )}
+
+              {(purchaseType === 'Subscription' || !pastryBox.oneTimePurchaseAvailable) && frequency && (
+                <fieldset className="contact-field contact-fieldset">
+                  <legend>
+                    which day{maxDaysForFrequency(frequency) > 1 ? 's' : ''}? ({selectedDays.length}/{maxDaysForFrequency(frequency)} selected)
+                  </legend>
+                  <div className="checkbox-grid">
+                    {DAYS_OF_WEEK.map((day) => {
+                      const checked = selectedDays.includes(day);
+                      const disabled = !checked && selectedDays.length >= maxDaysForFrequency(frequency);
+                      return (
+                        <label key={day} className="checkbox-option">
+                          <input
+                            type="checkbox"
+                            checked={checked}
+                            disabled={disabled}
+                            onChange={() => toggleDay(day, maxDaysForFrequency(frequency), setSelectedDays)}
+                          />
+                          {day}
+                        </label>
+                      );
+                    })}
+                  </div>
+                </fieldset>
               )}
 
               <div className="contact-field">
@@ -291,7 +352,7 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
                 <select
                   id="br-frequency"
                   value={breadFrequency}
-                  onChange={(e) => setBreadFrequency(e.target.value)}
+                  onChange={(e) => handleBreadFrequencyChange(e.target.value)}
                   required
                 >
                   <option value="" disabled>select one</option>
@@ -300,6 +361,31 @@ export default function ServiceInquiryForm({ pastryBox, sandwiches, bread }: Pro
                   ))}
                 </select>
               </div>
+
+              {breadFrequency && (
+                <fieldset className="contact-field contact-fieldset">
+                  <legend>
+                    which day{maxDaysForFrequency(breadFrequency) > 1 ? 's' : ''}? ({selectedBreadDays.length}/{maxDaysForFrequency(breadFrequency)} selected)
+                  </legend>
+                  <div className="checkbox-grid">
+                    {DAYS_OF_WEEK.map((day) => {
+                      const checked = selectedBreadDays.includes(day);
+                      const disabled = !checked && selectedBreadDays.length >= maxDaysForFrequency(breadFrequency);
+                      return (
+                        <label key={day} className="checkbox-option">
+                          <input
+                            type="checkbox"
+                            checked={checked}
+                            disabled={disabled}
+                            onChange={() => toggleDay(day, maxDaysForFrequency(breadFrequency), setSelectedBreadDays)}
+                          />
+                          {day}
+                        </label>
+                      );
+                    })}
+                  </div>
+                </fieldset>
+              )}
 
               <fieldset className="contact-field contact-fieldset">
                 <legend>bread &amp; english muffins</legend>
